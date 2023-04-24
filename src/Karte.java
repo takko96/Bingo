@@ -1,6 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.util.*;
+import java.util.List;
+import java.util.stream.Collector;
 
 public class Karte extends JPanel{
 
@@ -60,12 +63,12 @@ public class Karte extends JPanel{
         JPanel container = new JPanel(new GridLayout(1,5 ));
         container.setOpaque(false);
         container.setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
-
-        JPanel b = createPanel(Color.CYAN);
-        JPanel i = createPanel(Color.RED);
-        JPanel n = createPanel(Color.BLACK);
-        JPanel g = createPanel(Color.YELLOW);
-        JPanel o = createPanel(Color.PINK);
+        //strg + shift + m = تصنعلنا ميثودا
+        JPanel b = createPanel(1);
+        JPanel i = createPanel(16);
+        JPanel n = createPanel(31);
+        JPanel g = createPanel(46);
+        JPanel o = createPanel(61);
         container.add(b);
         container.add(i);
         container.add(n);
@@ -74,25 +77,31 @@ public class Karte extends JPanel{
         return container;
     }
 
-    private static JPanel createPanel(Color farbe) {
+    private static JPanel createPanel(int min) {
         JPanel b = new JPanel();
         //b.setBorder(new LineBorder(Color.BLACK, 4));
         b.setOpaque(false);
         b.setLayout(new GridLayout(5, 1));
+        ArrayList<Integer> list = new ArrayList<Integer>();
+        ArrayList<Integer> zufaelligeZahlen = erzeugeZufaelligeZahlen(min);
         for (int i = 0; i <= 4; i++) {
-            b.add(new JButton() {
-                @Override
-                protected void paintComponent(Graphics g) {
-                    super.paintComponent(g);
-                    Graphics2D graphics2D = (Graphics2D) g;
+            int number = zufaelligeZahlen.remove(0);
+            list.add(number);
+            JButton knopf = new JButton(number + "");
+            b.add(knopf);
 
-                    graphics2D.setColor(farbe);
-                    graphics2D.fillOval(0, 0, getWidth(), getHeight());
-                }
-
-            });
         }
         return b;
+    }
+
+    private static ArrayList<Integer> erzeugeZufaelligeZahlen(int basisWert){
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i=0; i<15; i++){
+            result.add(basisWert + i);
+        }
+        Collections.shuffle(result);
+        return result;
     }
 
 }
