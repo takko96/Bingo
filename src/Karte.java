@@ -9,6 +9,7 @@ public class Karte extends JPanel{
 
 
     private final ImageIcon img;
+    private boolean gameOver = false;
 
     public Karte(){
 
@@ -28,6 +29,15 @@ public class Karte extends JPanel{
 
 
         add(getBINGO(), BorderLayout.CENTER);
+
+        while(gameOver){
+
+            //حنديروا ليستا فيها كل الارقام من الـ 75 و تعبوها بـ for-loop و بعدين نطلعوا منها الارقام بـshuffle و تستمر لعند تكمل كل اللعبة تنتهي
+
+        }
+
+
+
         setVisible(true);
     }
 
@@ -89,16 +99,39 @@ public class Karte extends JPanel{
             list.add(number);
             JButton knopf = new JButton(number + "");
             b.add(knopf);
-
         }
         return b;
     }
 
-    private static ArrayList<Integer> erzeugeZufaelligeZahlen(int basisWert){
 
+    //Um Zahlen auf den Buttons zufällig zu schreiben
+    private static ArrayList<Integer> erzeugeZufaelligeZahlen(int basisWert){
         ArrayList<Integer> result = new ArrayList<>();
         for (int i=0; i<15; i++){
             result.add(basisWert + i);
+        }
+        Collections.shuffle(result);
+        return result;
+    }
+
+
+    //um Zahlen für B-Spalte auszuziehen
+    private static ArrayList<Integer> erzeugeZufaelligeB(){
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i=0; i<15; i++){
+            result.add(Integer.valueOf("B" + i));
+        }
+        Collections.shuffle(result);
+        return result;
+    }
+
+    //um Zahlen für I-Spalte auszuziehen
+    private static ArrayList<Integer> erzeugeZufaelligeI(){
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i=16; i<31; i++){
+            result.add(Integer.valueOf("I" + i));
         }
         Collections.shuffle(result);
         return result;
