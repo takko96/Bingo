@@ -1,14 +1,17 @@
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.*;
-import java.util.List;
-import java.util.stream.Collector;
+import java.util.Timer;
+
 
 public class Karte extends JPanel{
 
 
     private final ImageIcon img;
+
+    ArrayList<Integer> ausgezogneZahlen;
     private boolean gameOver = false;
 
     public Karte(){
@@ -30,16 +33,110 @@ public class Karte extends JPanel{
 
         add(getBINGO(), BorderLayout.CENTER);
 
+
+
+
+
         while(gameOver){
 
-            //حنديروا ليستا فيها كل الارقام من الـ 75 و تعبوها بـ for-loop و بعدين نطلعوا منها الارقام بـshuffle و تستمر لعند تكمل كل اللعبة تنتهي
+    //java util timer klasse
+            //timer einen Task geben alle x skunden und widerholbar.
+            //wenn Bingo gefunden ist und auf Bingo gedrückt ist wird die Schleife abgebruchen und das Spiel beendet
+
 
         }
 
 
 
+
+        int[] seconds = {0};
+
+        Timer timer = new Timer();
+        ArrayList<Integer> zufaelligeBINGO = erzeugeZufaelligeBINGO();
+        JLabel numbers = new JLabel();
+        numbers.setBackground(Color.WHITE);
+        numbers.setOpaque(true);
+        numbers.setSize(70,70);
+        numbers.setFont(new Font("Times New Roman", Font.BOLD, 50));
+        numbers.setBorder(BorderFactory.createLineBorder(Color.PINK, 5));
+        add(numbers, BorderLayout.WEST);
+
+        TimerTask task = new TimerTask() {
+
+            private int MAX_SECONDS = 100;
+
+            @Override
+            public void run() {
+                if (seconds[0] <= MAX_SECONDS) {
+                    System.out.println("Seconds = " + seconds[0]++);
+
+                    int number = zufaelligeBINGO.remove(0);
+                    ausgezogneZahlen.add(number); //für später Zum Vergleichen
+                    numbers.setText(number + "");
+                    numbers.repaint();
+
+
+                } else {
+                    // stop the timer
+                    cancel();
+                }
+            }
+        };
+
+        timer.schedule(task, 0, 5000);
+
+
+
+        JButton bingo = new JButton("BINGO!");
+        add(bingo, BorderLayout.SOUTH);
+        ActionListener actionListener = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (gameOver == true){
+                    //überprüfe ob bingo ist vorhanden!
+
+                }
+            }
+        };
+        bingo.addActionListener(actionListener);
+
+
+
         setVisible(true);
     }
+
+
+    /*_________________________________________________________________________________*/
+
+    //Methode um überprüfen ob ein Bingo vorhanden sind damit gameOver auf True eingesetzt
+
+    public boolean istBingo(){
+
+        /*geht alle Knöpfe durch und wenn es einen mit BG-Farbe findet schmeist es in Liste, dann checkt ob unter oder neben oder diagonal unter
+        ihn einen neuen findet, wenn nicht bricht die schleife ab.
+         */
+
+
+        return false;
+    }
+
+
+
+    /*______________________________________________________________*/
+
+    //حنديروا ليستا فيها كل الارقام من الـ 75 و تعبوها بـ for-loop و بعدين نطلعوا منها الارقام بـshuffle و تستمر لعند تكمل كل اللعبة تنتهي
+    //Methode um Zahlen zufällig auszuziehen
+    private static ArrayList<Integer> erzeugeZufaelligeBINGO(){
+
+        ArrayList<Integer> result = new ArrayList<>();
+        for (int i=1; i<76; i++){
+            result.add(i);
+        }
+        Collections.shuffle(result);
+        return result;
+    }
+
+    /*_________________________________________________________________________________*/
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -99,6 +196,16 @@ public class Karte extends JPanel{
             list.add(number);
             JButton knopf = new JButton(number + "");
             b.add(knopf);
+            ActionListener listener = new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    knopf.setBackground(Color.CYAN);
+                    knopf.setOpaque(true);
+                }
+            };
+            knopf.addActionListener(listener);
+
+            //wenn gedrückt bg auf rot dann dies nutzen um später zu überprüfen ob es rot oder nicht und dann mit der ausgezogene zahlen zu vergleichen
         }
         return b;
     }
@@ -115,26 +222,5 @@ public class Karte extends JPanel{
     }
 
 
-    //um Zahlen für B-Spalte auszuziehen
-    private static ArrayList<Integer> erzeugeZufaelligeB(){
-
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int i=0; i<15; i++){
-            result.add(Integer.valueOf("B" + i));
-        }
-        Collections.shuffle(result);
-        return result;
-    }
-
-    //um Zahlen für I-Spalte auszuziehen
-    private static ArrayList<Integer> erzeugeZufaelligeI(){
-
-        ArrayList<Integer> result = new ArrayList<>();
-        for (int i=16; i<31; i++){
-            result.add(Integer.valueOf("I" + i));
-        }
-        Collections.shuffle(result);
-        return result;
-    }
 
 }
