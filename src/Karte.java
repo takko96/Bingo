@@ -11,8 +11,10 @@ public class Karte extends JPanel{
 
     private final ImageIcon img;
 
-    ArrayList<Integer> ausgezogneZahlen;
+    static ArrayList<Integer> ausgezogneZahlen = new ArrayList<>();
     private boolean gameOver = false;
+
+    private ArrayList<JButton> buttons = new ArrayList<>();
 
     public Karte(){
 
@@ -37,20 +39,19 @@ public class Karte extends JPanel{
 
 
 
-        while(gameOver){
-
-    //java util timer klasse
-            //timer einen Task geben alle x skunden und widerholbar.
-            //wenn Bingo gefunden ist und auf Bingo gedrückt ist wird die Schleife abgebruchen und das Spiel beendet
-
-
-        }
+//        while(gameOver){
+//
+//    //java util timer klasse
+//            //timer einen Task geben alle x skunden und widerholbar.
+//            //wenn Bingo gefunden ist und auf Bingo gedrückt ist wird die Schleife abgebruchen und das Spiel beendet
+//
+//
+//        }
 
 
 
 
         int[] seconds = {0};
-
         Timer timer = new Timer();
         ArrayList<Integer> zufaelligeBINGO = erzeugeZufaelligeBINGO();
         JLabel numbers = new JLabel();
@@ -63,17 +64,17 @@ public class Karte extends JPanel{
 
         TimerTask task = new TimerTask() {
 
-            private int MAX_SECONDS = 100;
+            private int MAX_SECONDS = 1000;
 
             @Override
             public void run() {
                 if (seconds[0] <= MAX_SECONDS) {
                     System.out.println("Seconds = " + seconds[0]++);
-
                     int number = zufaelligeBINGO.remove(0);
-                    ausgezogneZahlen.add(number); //für später Zum Vergleichen
+
                     numbers.setText(number + "");
                     numbers.repaint();
+                    ausgezogneZahlen.add(number); //für später Zum Vergleichen
 
 
                 } else {
@@ -92,9 +93,14 @@ public class Karte extends JPanel{
         ActionListener actionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if (gameOver == true){
-                    //überprüfe ob bingo ist vorhanden!
+                timer.cancel();
+                System.out.println("Timer has been stopped");
 
+                if(istBingo()){
+                    JOptionPane.showMessageDialog(null, "You have a BINGO!");
+                }
+                else {
+                    JOptionPane.showMessageDialog(null, "There was no BINGO! You've lost!");
                 }
             }
         };
@@ -115,6 +121,83 @@ public class Karte extends JPanel{
         /*geht alle Knöpfe durch und wenn es einen mit BG-Farbe findet schmeist es in Liste, dann checkt ob unter oder neben oder diagonal unter
         ihn einen neuen findet, wenn nicht bricht die schleife ab.
          */
+
+
+        //Checkt Vertikal
+        if (buttons.get(0).getBackground().equals(Color.CYAN) && buttons.get(1).getBackground().equals(Color.CYAN) &&
+                buttons.get(2).getBackground().equals(Color.CYAN) && buttons.get(3).getBackground().equals(Color.CYAN) &&
+                buttons.get(4).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+        else if(buttons.get(5).getBackground().equals(Color.CYAN) && buttons.get(6).getBackground().equals(Color.CYAN) &&
+                buttons.get(7).getBackground().equals(Color.CYAN) && buttons.get(8).getBackground().equals(Color.CYAN) &&
+                buttons.get(9).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(10).getBackground().equals(Color.CYAN) && buttons.get(11).getBackground().equals(Color.CYAN) &&
+                buttons.get(12).getBackground().equals(Color.CYAN) && buttons.get(13).getBackground().equals(Color.CYAN) &&
+                buttons.get(14).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(15).getBackground().equals(Color.CYAN) && buttons.get(16).getBackground().equals(Color.CYAN) &&
+                buttons.get(17).getBackground().equals(Color.CYAN) && buttons.get(18).getBackground().equals(Color.CYAN) &&
+                buttons.get(19).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(20).getBackground().equals(Color.CYAN) && buttons.get(21).getBackground().equals(Color.CYAN) &&
+                buttons.get(22).getBackground().equals(Color.CYAN) && buttons.get(23).getBackground().equals(Color.CYAN) &&
+                buttons.get(24).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+
+        //Checkt Horizontal
+        else if(buttons.get(0).getBackground().equals(Color.CYAN) && buttons.get(5).getBackground().equals(Color.CYAN) &&
+                buttons.get(10).getBackground().equals(Color.CYAN) && buttons.get(15).getBackground().equals(Color.CYAN) &&
+                buttons.get(20).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(1).getBackground().equals(Color.CYAN) && buttons.get(6).getBackground().equals(Color.CYAN) &&
+                buttons.get(11).getBackground().equals(Color.CYAN) && buttons.get(16).getBackground().equals(Color.CYAN) &&
+                buttons.get(21).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(2).getBackground().equals(Color.CYAN) && buttons.get(7).getBackground().equals(Color.CYAN) &&
+                buttons.get(12).getBackground().equals(Color.CYAN) && buttons.get(17).getBackground().equals(Color.CYAN) &&
+                buttons.get(22).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(3).getBackground().equals(Color.CYAN) && buttons.get(8).getBackground().equals(Color.CYAN) &&
+                buttons.get(13).getBackground().equals(Color.CYAN) && buttons.get(18).getBackground().equals(Color.CYAN) &&
+                buttons.get(23).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(4).getBackground().equals(Color.CYAN) && buttons.get(9).getBackground().equals(Color.CYAN) &&
+                buttons.get(14).getBackground().equals(Color.CYAN) && buttons.get(19).getBackground().equals(Color.CYAN) &&
+                buttons.get(24).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+
+        //Check Diagonal
+        else if(buttons.get(0).getBackground().equals(Color.CYAN) && buttons.get(6).getBackground().equals(Color.CYAN) &&
+                buttons.get(12).getBackground().equals(Color.CYAN) && buttons.get(18).getBackground().equals(Color.CYAN) &&
+                buttons.get(24).getBackground().equals(Color.CYAN)){
+            return true;
+        }
+
+        else if(buttons.get(20).getBackground().equals(Color.CYAN) && buttons.get(16).getBackground().equals(Color.CYAN) &&
+                buttons.get(12).getBackground().equals(Color.CYAN) && buttons.get(8).getBackground().equals(Color.CYAN) &&
+                buttons.get(4).getBackground().equals(Color.CYAN)){
+            return true;
+        }
 
 
         return false;
@@ -166,7 +249,7 @@ public class Karte extends JPanel{
 
         return titleContainer;
     }
-    private static JPanel getBINGO() {
+    private JPanel getBINGO() {
         JPanel container = new JPanel(new GridLayout(1,5 ));
         container.setOpaque(false);
         container.setBorder(BorderFactory.createLineBorder(Color.GREEN, 4));
@@ -184,7 +267,7 @@ public class Karte extends JPanel{
         return container;
     }
 
-    private static JPanel createPanel(int min) {
+    private JPanel createPanel(int min) {
         JPanel b = new JPanel();
         //b.setBorder(new LineBorder(Color.BLACK, 4));
         b.setOpaque(false);
@@ -196,12 +279,51 @@ public class Karte extends JPanel{
             list.add(number);
             JButton knopf = new JButton(number + "");
             b.add(knopf);
+            buttons.add(knopf);
+
             ActionListener listener = new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent e) {
-                    knopf.setBackground(Color.CYAN);
-                    knopf.setOpaque(true);
+                    String txt = knopf.getText();
+                    int i1 = Integer.parseInt(txt);
+
+                    if(ausgezogneZahlen.contains(i1)){
+                        knopf.setBackground(Color.CYAN);
+                        knopf.setOpaque(true);
+                    }
+
+
+//                    //Funktioniert nicht
+//                    else{
+//
+//                        Timer timer = new Timer();
+//                        int[] seconds = {0};
+//                        TimerTask task = new TimerTask() {
+//
+//                            private int MAX_SECONDS = 100;
+//                            @Override
+//                            public void run() {
+//                                if (seconds[0] <= MAX_SECONDS) {
+//                                    System.out.println("Seconds = " + seconds[0]++);
+//                                    knopf.setBackground(Color.RED);
+//                                    knopf.setOpaque(true);
+//                                    knopf.repaint();
+//
+//
+//                                } else {
+//                                    // stop the timer
+//                                    cancel();
+//                                }
+//                            }
+//                        };
+//
+//                        timer.schedule(task, 0, 200);
+//
+//                    }
+
+
                 }
+                //}
             };
             knopf.addActionListener(listener);
 
