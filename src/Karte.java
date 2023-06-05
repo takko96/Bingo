@@ -7,18 +7,19 @@ import java.util.Timer;
 
 
 public class Karte extends JPanel{
-
+    /**
+     *Die Klasse Karte erbt von JPanel und hat
+     */
 
     private final ImageIcon img;
 
     static ArrayList<Integer> ausgezogneZahlen = new ArrayList<>();
-    private boolean gameOver = false;
 
     private ArrayList<JButton> buttons = new ArrayList<>();
 
     public Karte(){
 
-        setBorder(BorderFactory.createLineBorder(Color.RED, 4));
+        //setBorder(BorderFactory.createLineBorder(Color.RED, 4));
 
         //Basis der Karte wo alle Komponenten rain kommen werden.
 
@@ -287,47 +288,30 @@ public class Karte extends JPanel{
                     String txt = knopf.getText();
                     int i1 = Integer.parseInt(txt);
 
+
                     if(ausgezogneZahlen.contains(i1)){
                         knopf.setBackground(Color.CYAN);
                         knopf.setOpaque(true);
                     }
 
-
-//                    //Funktioniert nicht
-//                    else{
-//
-//                        Timer timer = new Timer();
-//                        int[] seconds = {0};
-//                        TimerTask task = new TimerTask() {
-//
-//                            private int MAX_SECONDS = 100;
-//                            @Override
-//                            public void run() {
-//                                if (seconds[0] <= MAX_SECONDS) {
-//                                    System.out.println("Seconds = " + seconds[0]++);
-//                                    knopf.setBackground(Color.RED);
-//                                    knopf.setOpaque(true);
-//                                    knopf.repaint();
-//
-//
-//                                } else {
-//                                    // stop the timer
-//                                    cancel();
-//                                }
-//                            }
-//                        };
-//
-//                        timer.schedule(task, 0, 200);
-//
-//                    }
-
+                    //wenn gedrückt bg auf rot dann um zu zeigen dass es einen falschen Druck ist
+                    else{
+                        knopf.setBackground(Color.RED);
+                        knopf.setOpaque(true);
+                        TimerTask task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                knopf.setBackground(null);
+                            }
+                        };
+                        new Timer().schedule(task, 1500);
+                    }
 
                 }
-                //}
+
             };
             knopf.addActionListener(listener);
 
-            //wenn gedrückt bg auf rot dann dies nutzen um später zu überprüfen ob es rot oder nicht und dann mit der ausgezogene zahlen zu vergleichen
         }
         return b;
     }
